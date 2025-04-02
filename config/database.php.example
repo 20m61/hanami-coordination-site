@@ -1,0 +1,46 @@
+<?php
+/**
+ * データベース接続設定
+ * 
+ * このファイルを「database.php」としてコピーし、環境に合わせて設定を変更してください。
+ */
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | デフォルトデータベース接続
+    |--------------------------------------------------------------------------
+    |
+    | デフォルトで使用するデータベース接続を指定します。
+    |
+    */
+    'default' => $_ENV['DB_CONNECTION'] ?? 'mysql',
+
+    /*
+    |--------------------------------------------------------------------------
+    | データベース接続
+    |--------------------------------------------------------------------------
+    |
+    | アプリケーションで使用するデータベース接続の設定です。
+    |
+    */
+    'connections' => [
+        'mysql' => [
+            'driver' => 'mysql',
+            'host' => $_ENV['DB_HOST'] ?? 'localhost',
+            'port' => $_ENV['DB_PORT'] ?? '3306',
+            'database' => $_ENV['DB_DATABASE'] ?? 'hanami',
+            'username' => $_ENV['DB_USERNAME'] ?? 'root',
+            'password' => $_ENV['DB_PASSWORD'] ?? '',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? [
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ] : [],
+        ],
+    ],
+];
