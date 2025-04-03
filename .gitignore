@@ -1,0 +1,41 @@
+# Composer
+/vendor/
+composer.phar
+composer.lock
+
+# PHP
+*.log
+.env
+.env.backup
+
+# IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Configs
+/config/database.php
+/config/app.local.php
+
+# Node.js
+/node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Logs
+/logs/
+*.log
+
+# Coverage
+/coverage/
+.phpunit.result.cache
