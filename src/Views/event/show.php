@@ -86,12 +86,7 @@
     <!-- タブコンテンツ -->
     <div class="tab-content">
         <!-- 日程調整タブ -->
-        <div id="dates-content" class="tab-pane active">
-            <h2 class="text-xl font-semibold text-pink-700 mb-4">日程調整</h2>
-            
-            <!-- 日程の追加フォームと日程候補リストはこちら -->
-            <p class="text-gray-700 mb-4">この機能は今後実装予定です。</p>
-        </div>
+        <?= $dateTabContent ?? '' ?>
         
         <!-- 場所タブ -->
         <div id="locations-content" class="tab-pane hidden">
@@ -186,14 +181,26 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // 参加者モーダル処理
-    // TODO: Cookieや小さなローカルストレージで既に参加済みか判定する
-    // const memberModal = document.getElementById('memberModal');
-    // memberModal.classList.remove('hidden');
-    
-    // document.getElementById('memberForm').addEventListener('submit', function(e) {
-    //     e.preventDefault();
-    //     // TODO: フォーム送信処理
-    //     memberModal.classList.add('hidden');
-    // });
+    // 名前がローカルストレージに保存されていなければモーダルを表示
+    if (!localStorage.getItem('member_name')) {
+        const memberModal = document.getElementById('memberModal');
+        memberModal.classList.remove('hidden');
+        
+        document.getElementById('memberForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const memberName = document.getElementById('member_name').value;
+            
+            if (memberName) {
+                localStorage.setItem('member_name', memberName);
+                memberModal.classList.add('hidden');
+                
+                // 日時候補の名前欄も同じ名前で自動入力
+                const dateNameField = document.getElementById('date_member_name');
+                if (dateNameField) {
+                    dateNameField.value = memberName;
+                }
+            }
+        });
+    }
 });
 </script>
