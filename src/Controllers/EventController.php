@@ -91,6 +91,11 @@ class EventController extends Controller
         $itemModel = new Item();
         $items = $itemModel->getItemsByEvent($eventId);
         
+        // 各タブのコンテンツを読み込む
+        ob_start();
+        include __DIR__ . '/../Views/event/date_tab.php';
+        $dateTabContent = ob_get_clean();
+        
         // ビューを表示
         $this->view('event/show', [
             'title' => $event['event_name'] . ' - 花見調整サイト',
@@ -99,6 +104,7 @@ class EventController extends Controller
             'locations' => $locations,
             'members' => $members,
             'items' => $items,
+            'dateTabContent' => $dateTabContent,
             'csrfToken' => $this->generateCsrfToken()
         ]);
     }
