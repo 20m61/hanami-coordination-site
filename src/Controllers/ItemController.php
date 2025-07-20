@@ -36,6 +36,13 @@ class ItemController extends Controller
             return;
         }
         
+        // カテゴリーの検証
+        $validCategories = ['食べ物', '飲み物', 'レジャー用品', 'キッチン用品', '緊急・安全', 'その他'];
+        if (!empty($category) && !in_array($category, $validCategories)) {
+            $this->json(['error' => '無効なカテゴリーが指定されました'], 400);
+            return;
+        }
+        
         // イベントの存在確認
         $eventModel = new Event();
         if (!$eventModel->exists($eventId)) {
@@ -53,11 +60,17 @@ class ItemController extends Controller
         }
         
         // 持ち物の追加
-        $itemModel = new Item();
-        $itemId = $itemModel->addItem($eventId, $name, $category);
-        
-        if (!$itemId) {
-            $this->json(['error' => '持ち物の追加に失敗しました'], 500);
+        try {
+            $itemModel = new Item();
+            $itemId = $itemModel->addItem($eventId, $name, $category);
+            
+            if (!$itemId) {
+                $this->json(['error' => '持ち物の追加に失敗しました'], 500);
+                return;
+            }
+        } catch (\Exception $e) {
+            error_log('Item addition failed: ' . $e->getMessage());
+            $this->json(['error' => 'データベースエラーが発生しました'], 500);
             return;
         }
         
@@ -107,10 +120,16 @@ class ItemController extends Controller
         $eventId = $item['event_id'];
         
         // 削除処理
-        $result = $itemModel->delete($itemId);
-        
-        if (!$result) {
-            $this->json(['error' => '持ち物の削除に失敗しました'], 500);
+        try {
+            $result = $itemModel->delete($itemId);
+            
+            if (!$result) {
+                $this->json(['error' => '持ち物の削除に失敗しました'], 500);
+                return;
+            }
+        } catch (\Exception $e) {
+            error_log('Item deletion failed: ' . $e->getMessage());
+            $this->json(['error' => 'データベースエラーが発生しました'], 500);
             return;
         }
         

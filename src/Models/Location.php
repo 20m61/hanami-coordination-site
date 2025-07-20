@@ -136,7 +136,9 @@ class Location extends Model
             'maps.apple.com',
             'openstreetmap.org',
             'bing.com/maps',
-            'waze.com'
+            'waze.com',
+            'map.yahoo.co.jp',
+            'yahoo.co.jp/map'
         ];
         
         foreach ($validDomains as $domain) {
