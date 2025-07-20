@@ -24,7 +24,7 @@ mysql -u your_username -p < database/sample_data.sql  # Optional: sample data
 
 ### Testing & Quality Control
 ```bash
-# Run PHPUnit tests
+# Run PHPUnit tests (Note: tests directory needs to be created)
 composer test
 
 # Run PHPStan static analysis
@@ -88,7 +88,7 @@ The application uses `.env` files for configuration:
 - Application environment settings
 
 ### Error Handling
-- Monolog for error logging to `logs/error.log`
+- Monolog for error logging to `logs/error.log` (create logs directory if needed)
 - Environment-aware error display (detailed in development, generic in production)
 - 404 handling via Router
 
