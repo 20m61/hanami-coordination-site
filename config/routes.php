@@ -24,7 +24,9 @@ $router->post('/event/{event_id}/location/vote', 'LocationController@vote');
 
 // 持ち物リスト関連
 $router->post('/event/{event_id}/item/add', 'ItemController@add');
-$router->post('/event/{event_id}/item/assign', 'ItemController@assign');
+$router->post('/item/{item_id}/delete', 'ItemController@delete');
+$router->post('/item/{item_id}/assign', 'ItemController@assign');
+$router->post('/item/{item_id}/status', 'ItemController@updateStatus');
 
 // 参加者関連
 $router->post('/event/{event_id}/member/join', 'MemberController@join');

@@ -70,6 +70,26 @@ class Realtime
     }
     
     /**
+     * 持ち物リストの更新を通知
+     * 
+     * @param string $eventId イベントID
+     * @param array $data 通知するデータ
+     * @return void
+     */
+    public static function updateItems(string $eventId, array $data): void
+    {
+        // Pusher実装がまだの場合はログに記録
+        if (!self::isPusherConfigured()) {
+            error_log("Realtime update for event {$eventId}: " . json_encode($data));
+            return;
+        }
+        
+        // TODO: Pusher実装
+        // $pusher = self::getPusherInstance();
+        // $pusher->trigger("event-{$eventId}", 'items-updated', $data);
+    }
+    
+    /**
      * Pusherが設定されているかチェック
      * 
      * @return bool

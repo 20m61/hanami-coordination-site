@@ -92,12 +92,7 @@
         <?= $locationTabContent ?? '' ?>
         
         <!-- 持ち物タブ -->
-        <div id="items-content" class="tab-pane hidden">
-            <h2 class="text-xl font-semibold text-pink-700 mb-4">持ち物リスト</h2>
-            
-            <!-- 持ち物の追加フォームと持ち物リストはこちら -->
-            <p class="text-gray-700 mb-4">この機能は今後実装予定です。</p>
-        </div>
+        <?= $itemTabContent ?? '' ?>
         
         <!-- チャットタブ -->
         <div id="chat-content" class="tab-pane hidden">
@@ -199,8 +194,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (locationNameField) {
                     locationNameField.value = memberName;
                 }
+                
+                const itemNameField = document.getElementById('item_member_name');
+                if (itemNameField) {
+                    itemNameField.value = memberName;
+                }
             }
         });
     }
+    
+    // メッセージ表示関数（グローバルに定義）
+    window.showMessage = function(type, text) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `fixed bottom-4 right-4 p-4 rounded-lg shadow-lg ${
+            type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+        }`;
+        messageDiv.textContent = text;
+        document.body.appendChild(messageDiv);
+        
+        // 3秒後に消える
+        setTimeout(() => {
+            messageDiv.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+            setTimeout(() => {
+                document.body.removeChild(messageDiv);
+            }, 500);
+        }, 3000);
+    };
 });
 </script>

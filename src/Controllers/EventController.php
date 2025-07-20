@@ -100,6 +100,10 @@ class EventController extends Controller
         include __DIR__ . '/../Views/event/location_tab.php';
         $locationTabContent = ob_get_clean();
         
+        ob_start();
+        include __DIR__ . '/../Views/event/item_tab.php';
+        $itemTabContent = ob_get_clean();
+        
         // ビューを表示
         $this->view('event/show', [
             'title' => $event['event_name'] . ' - 花見調整サイト',
@@ -110,6 +114,7 @@ class EventController extends Controller
             'items' => $items,
             'dateTabContent' => $dateTabContent,
             'locationTabContent' => $locationTabContent,
+            'itemTabContent' => $itemTabContent,
             'csrfToken' => $this->generateCsrfToken()
         ]);
     }
