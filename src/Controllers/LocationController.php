@@ -60,11 +60,17 @@ class LocationController extends Controller
         }
         
         // 場所候補の追加
-        $locationModel = new Location();
-        $locationId = $locationModel->addCandidate($eventId, $name, $url);
-        
-        if (!$locationId) {
-            $this->json(['error' => '場所候補の追加に失敗しました'], 500);
+        try {
+            $locationModel = new Location();
+            $locationId = $locationModel->addCandidate($eventId, $name, $url);
+            
+            if (!$locationId) {
+                $this->json(['error' => '場所候補の追加に失敗しました'], 500);
+                return;
+            }
+        } catch (\Exception $e) {
+            error_log('Location addition failed: ' . $e->getMessage());
+            $this->json(['error' => 'データベースエラーが発生しました'], 500);
             return;
         }
         
@@ -135,17 +141,23 @@ class LocationController extends Controller
         }
         
         // 投票処理
-        $voteModel = new Vote();
-        $voteId = $voteModel->addVote($eventId, $memberId, 'location', $locationId);
-        
-        // 既に投票している場合は削除（トグル機能）
-        if (!$voteId) {
-            $voteRemoved = $voteModel->removeVote($eventId, $memberId, 'location', $locationId);
+        try {
+            $voteModel = new Vote();
+            $voteId = $voteModel->addVote($eventId, $memberId, 'location', $locationId);
             
-            if (!$voteRemoved) {
-                $this->json(['error' => '投票の取り消しに失敗しました'], 500);
-                return;
+            // 既に投票している場合は削除（トグル機能）
+            if (!$voteId) {
+                $voteRemoved = $voteModel->removeVote($eventId, $memberId, 'location', $locationId);
+                
+                if (!$voteRemoved) {
+                    $this->json(['error' => '投票の取り消しに失敗しました'], 500);
+                    return;
+                }
             }
+        } catch (\Exception $e) {
+            error_log('Vote operation failed: ' . $e->getMessage());
+            $this->json(['error' => 'データベースエラーが発生しました'], 500);
+            return;
         }
         
         // 投票結果を取得

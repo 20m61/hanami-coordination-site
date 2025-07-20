@@ -90,12 +90,17 @@
                             <div class="flex items-center">
                                 <!-- 投票ゲージ -->
                                 <div class="relative h-8 w-32 bg-gray-200 rounded-full overflow-hidden mr-4">
+                                    <?php
+                                    $voteCount = $location['vote_count'] ?? 0;
+                                    $memberCount = count($members);
+                                    $percentage = $memberCount > 0 ? min(100, floor(($voteCount / $memberCount) * 100)) : 0;
+                                    ?>
                                     <div class="vote-gauge absolute h-full bg-green-500 transition-all duration-300" 
-                                         style="width: <?= ($location['vote_count'] ?? 0) > 0 ? min(100, ($location['vote_count'] / max(1, count($members))) * 100) : 0 ?>%">
+                                         style="width: <?= $percentage ?>%">
                                     </div>
                                     <div class="absolute inset-0 flex items-center justify-center text-sm font-medium">
                                         <span class="vote-percentage">
-                                            <?= ($location['vote_count'] ?? 0) > 0 ? floor(($location['vote_count'] / max(1, count($members))) * 100) : 0 ?>%
+                                            <?= $percentage ?>%
                                         </span>
                                     </div>
                                 </div>
