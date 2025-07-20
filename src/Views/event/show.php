@@ -89,12 +89,7 @@
         <?= $dateTabContent ?? '' ?>
         
         <!-- 場所タブ -->
-        <div id="locations-content" class="tab-pane hidden">
-            <h2 class="text-xl font-semibold text-pink-700 mb-4">場所候補</h2>
-            
-            <!-- 場所の追加フォームと場所候補リストはこちら -->
-            <p class="text-gray-700 mb-4">この機能は今後実装予定です。</p>
-        </div>
+        <?= $locationTabContent ?? '' ?>
         
         <!-- 持ち物タブ -->
         <div id="items-content" class="tab-pane hidden">
@@ -194,10 +189,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('member_name', memberName);
                 memberModal.classList.add('hidden');
                 
-                // 日時候補の名前欄も同じ名前で自動入力
+                // 各タブの名前欄も同じ名前で自動入力
                 const dateNameField = document.getElementById('date_member_name');
                 if (dateNameField) {
                     dateNameField.value = memberName;
+                }
+                
+                const locationNameField = document.getElementById('location_member_name');
+                if (locationNameField) {
+                    locationNameField.value = memberName;
                 }
             }
         });
